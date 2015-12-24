@@ -120,8 +120,8 @@ class ResponseInfo(object):
     Attributes:
         status_code: 整数变量，响应状态码
         text_body:   字符串变量，响应的body
-        req_id:      字符串变量，七牛HTTP扩展字段，参考 http://developer.qiniu4tornado.com/docs/v6/api/reference/extended-headers.html
-        x_log:       字符串变量，七牛HTTP扩展字段，参考 http://developer.qiniu4tornado.com/docs/v6/api/reference/extended-headers.html
+        req_id:      字符串变量，七牛HTTP扩展字段，参考 http://developer.qiniu.com/docs/v6/api/reference/extended-headers.html
+        x_log:       字符串变量，七牛HTTP扩展字段，参考 http://developer.qiniu.com/docs/v6/api/reference/extended-headers.html
         error:       字符串变量，响应的错误内容
     """
 
@@ -147,7 +147,7 @@ class ResponseInfo(object):
                 else:
                     self.error = ret['error']
             if self.req_id is None and self.status_code == 200:
-                self.error = 'server is not qiniu4tornado'
+                self.error = 'server is not qiniu'
 
     def ok(self):
         return self.status_code == 200 and self.req_id is not None

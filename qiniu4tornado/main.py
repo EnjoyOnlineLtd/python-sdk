@@ -7,7 +7,7 @@ from qiniu4tornado import etag
 
 
 def main():
-    parser = argparse.ArgumentParser(prog='qiniu4tornado')
+    parser = argparse.ArgumentParser(prog='qiniu')
     sub_parsers = parser.add_subparsers()
 
     parser_etag = sub_parsers.add_parser(

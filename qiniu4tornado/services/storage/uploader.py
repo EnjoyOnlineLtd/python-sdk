@@ -17,7 +17,7 @@ def put_data(
         up_token:         上传凭证
         key:              上传文件名
         data:             上传二进制流
-        params:           自定义变量，规格参考 http://developer.qiniu4tornado.com/docs/v6/api/overview/up/response/vars.html#xvar
+        params:           自定义变量，规格参考 http://developer.qiniu.com/docs/v6/api/overview/up/response/vars.html#xvar
         mime_type:        上传数据的mimeType
         check_crc:        是否校验crc32
         progress_handler: 上传进度
@@ -39,7 +39,7 @@ def put_file(up_token, key, file_path, params=None,
         up_token:         上传凭证
         key:              上传文件名
         file_path:        上传文件的路径
-        params:           自定义变量，规格参考 http://developer.qiniu4tornado.com/docs/v6/api/overview/up/response/vars.html#xvar
+        params:           自定义变量，规格参考 http://developer.qiniu.com/docs/v6/api/overview/up/response/vars.html#xvar
         mime_type:        上传数据的mimeType
         check_crc:        是否校验crc32
         progress_handler: 上传进度
@@ -111,7 +111,7 @@ class _Resume(object):
         key:              上传文件名
         input_stream:     上传二进制流
         data_size:        上传流大小
-        params:           自定义变量，规格参考 http://developer.qiniu4tornado.com/docs/v6/api/overview/up/response/vars.html#xvar
+        params:           自定义变量，规格参考 http://developer.qiniu.com/docs/v6/api/overview/up/response/vars.html#xvar
         mime_type:        上传数据的mimeType
         progress_handler: 上传进度
         upload_progress_recorder:  记录上传进度，用于断点续传

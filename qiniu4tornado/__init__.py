@@ -4,7 +4,7 @@ Qiniu Resource Storage SDK for Python
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For detailed document, please see:
-<http://developer.qiniu4tornado.com>
+<http://developer.qiniu.com>
 '''
 
 # flake8: noqa
