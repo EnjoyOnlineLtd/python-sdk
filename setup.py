@@ -14,10 +14,10 @@ except ImportError:
 
 
 packages = [
-    'qiniu',
-    'qiniu.services',
-    'qiniu.services.storage',
-    'qiniu.services.processing',
+    'qiniu4tornado',
+    'qiniu4tornado.services',
+    'qiniu4tornado.services.storage',
+    'qiniu4tornado.services.processing',
 ]
 
 
@@ -38,15 +38,15 @@ def find_version(*file_paths):
 
 
 setup(
-    name='qiniu',
-    version=find_version("qiniu/__init__.py"),
+    name='qiniu4tornado',
+    version=find_version("qiniu4tornado/__init__.py"),
     description='Qiniu Resource Storage SDK',
-    long_description='see:\nhttps://github.com/qiniu/python-sdk\n',
+    long_description='see:\nhttps://github.com/qiniu4tornado/python-sdk\n',
     author='Shanghai Qiniu Information Technologies Co., Ltd.',
-    author_email='sdk@qiniu.com',
-    maintainer_email='support@qiniu.com',
+    author_email='sdk@qiniu4tornado.com',
+    maintainer_email='support@qiniu4tornado.com',
     license='MIT',
-    url='https://github.com/qiniu/python-sdk',
+    url='https://github.com/qiniu4tornado/python-sdk',
     platforms='any',
     packages=packages,
     classifiers=[
@@ -67,7 +67,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'qiniupy = qiniu.main:main',
+            'qiniupy = qiniu4tornado.main:main',
         ],
     }
 )

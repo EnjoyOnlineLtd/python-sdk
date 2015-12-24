@@ -3,11 +3,11 @@
 
 import argparse
 
-from qiniu import etag
+from qiniu4tornado import etag
 
 
 def main():
-    parser = argparse.ArgumentParser(prog='qiniu')
+    parser = argparse.ArgumentParser(prog='qiniu4tornado')
     sub_parsers = parser.add_subparsers()
 
     parser_etag = sub_parsers.add_parser(

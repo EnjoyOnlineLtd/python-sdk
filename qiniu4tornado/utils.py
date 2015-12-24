@@ -19,7 +19,7 @@ def urlsafe_base64_encode(data):
     """urlsafe的base64编码:
 
     对提供的数据进行urlsafe的base64编码。规格参考：
-    http://developer.qiniu.com/docs/v6/api/overview/appendix.html#urlsafe-base64
+    http://developer.qiniu4tornado.com/docs/v6/api/overview/appendix.html#urlsafe-base64
 
     Args:
         data: 待编码的数据，一般为字符串
@@ -108,7 +108,7 @@ def _sha1(data):
 def etag_stream(input_stream):
     """计算输入流的etag:
 
-    etag规格参考 http://developer.qiniu.com/docs/v6/api/overview/appendix.html#qiniu-etag
+    etag规格参考 http://developer.qiniu4tornado.com/docs/v6/api/overview/appendix.html#qiniu4tornado-etag
 
     Args:
         input_stream: 待计算etag的二进制流
@@ -143,7 +143,7 @@ def etag(filePath):
 def entry(bucket, key):
     """计算七牛API中的数据格式:
 
-    entry规格参考 http://developer.qiniu.com/docs/v6/api/reference/data-formats.html
+    entry规格参考 http://developer.qiniu4tornado.com/docs/v6/api/reference/data-formats.html
 
     Args:
         bucket: 待操作的空间名

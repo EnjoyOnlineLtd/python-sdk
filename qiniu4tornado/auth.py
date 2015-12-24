@@ -47,8 +47,8 @@ class Auth(object):
     该类主要内容是七牛上传凭证、下载凭证、管理凭证三种凭证的签名接口的实现，以及回调验证。
 
     Attributes:
-        __access_key: 账号密钥对中的accessKey，详见 https://portal.qiniu.com/setting/key
-        __secret_key: 账号密钥对重的secretKey，详见 https://portal.qiniu.com/setting/key
+        __access_key: 账号密钥对中的accessKey，详见 https://portal.qiniu4tornado.com/setting/key
+        __secret_key: 账号密钥对重的secretKey，详见 https://portal.qiniu4tornado.com/setting/key
     """
 
     def __init__(self, access_key, secret_key):

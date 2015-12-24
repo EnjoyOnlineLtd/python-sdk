@@ -3,7 +3,7 @@
 RS_HOST = 'rs.qbox.me'      # 管理操作Host
 IO_HOST = 'iovip.qbox.me'   # 七牛源站Host
 RSF_HOST = 'rsf.qbox.me'    # 列举操作Host
-API_HOST = 'api.qiniu.com'  # 数据处理操作Host
+API_HOST = 'api.qiniu4tornado.com'  # 数据处理操作Host
 
 _BLOCK_SIZE = 1024 * 1024 * 4  # 断点续上传分块大小，该参数为接口规格，暂不支持修改
 
@@ -22,8 +22,8 @@ class Zone(object):
         self.up_host, self.up_host_backup = up_host, up_host_backup
 
 
-zone0 = Zone('up.qiniu.com', 'upload.qiniu.com')
-zone1 = Zone('up-z1.qiniu.com', 'upload-z1.qiniu.com')
+zone0 = Zone('up.qiniu4tornado.com', 'upload.qiniu4tornado.com')
+zone1 = Zone('up-z1.qiniu4tornado.com', 'upload-z1.qiniu4tornado.com')
 
 _config = {
     'default_up_host': zone0.up_host,  # 设置为默认上传Host

@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from qiniu import config
-from qiniu import http
+from qiniu4tornado import config
+from qiniu4tornado import http
 
 
 class PersistentFop(object):
     """持久化处理类
 
     该类用于主动触发异步持久化操作，具体规格参考：
-    http://developer.qiniu.com/docs/v6/api/reference/fop/pfop/pfop.html
+    http://developer.qiniu4tornado.com/docs/v6/api/reference/fop/pfop/pfop.html
 
     Attributes:
         auth:       账号管理密钥对，Auth对象
         bucket:     操作资源所在空间
-        pipeline:   多媒体处理队列，详见 https://portal.qiniu.com/mps/pipeline
+        pipeline:   多媒体处理队列，详见 https://portal.qiniu4tornado.com/mps/pipeline
         notify_url: 持久化处理结果通知URL
     """
 
@@ -29,7 +29,7 @@ class PersistentFop(object):
 
         Args:
             key:    待处理的源文件
-            fops:   处理详细操作，规格详见 http://developer.qiniu.com/docs/v6/api/reference/fop/
+            fops:   处理详细操作，规格详见 http://developer.qiniu4tornado.com/docs/v6/api/reference/fop/
             force:  强制执行持久化处理开关
 
         Returns:

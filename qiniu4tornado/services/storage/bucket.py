@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from qiniu import config
-from qiniu.utils import urlsafe_base64_encode, entry
-from qiniu import http
+from qiniu4tornado import config
+from qiniu4tornado.utils import urlsafe_base64_encode, entry
+from qiniu4tornado import http
 from tornado import gen
 
 
@@ -10,7 +10,7 @@ class BucketManager(object):
     """空间管理类
 
     主要涉及了空间资源管理及批量操作接口的实现，具体的接口规格可以参考：
-    http://developer.qiniu.com/docs/v6/api/reference/rs/
+    http://developer.qiniu4tornado.com/docs/v6/api/reference/rs/
 
     Attributes:
         auth: 账号管理密钥对，Auth对象
@@ -26,7 +26,7 @@ class BucketManager(object):
         2. 无论 err 值如何，均应该先看 ret.get('items') 是否有内容
         3. 如果后续没有更多数据，err 返回 EOF，marker 返回 None（但不通过该特征来判断是否结束）
         具体规格参考:
-        http://developer.qiniu.com/docs/v6/api/reference/rs/list.html
+        http://developer.qiniu4tornado.com/docs/v6/api/reference/rs/list.html
 
         Args:
             bucket:     空间名
@@ -60,7 +60,7 @@ class BucketManager(object):
         """获取文件信息:
 
         获取资源的元信息，但不返回文件内容，具体规格参考：
-        http://developer.qiniu.com/docs/v6/api/reference/rs/stat.html
+        http://developer.qiniu4tornado.com/docs/v6/api/reference/rs/stat.html
 
         Args:
             bucket: 待获取信息资源所在的空间
@@ -83,7 +83,7 @@ class BucketManager(object):
         """删除文件:
 
         删除指定资源，具体规格参考：
-        http://developer.qiniu.com/docs/v6/api/reference/rs/delete.html
+        http://developer.qiniu4tornado.com/docs/v6/api/reference/rs/delete.html
 
         Args:
             bucket: 待获取信息资源所在的空间
@@ -116,7 +116,7 @@ class BucketManager(object):
         """移动文件:
 
         将资源从一个空间到另一个空间，具体规格参考：
-        http://developer.qiniu.com/docs/v6/api/reference/rs/move.html
+        http://developer.qiniu4tornado.com/docs/v6/api/reference/rs/move.html
 
         Args:
             bucket:     待操作资源所在空间
@@ -136,7 +136,7 @@ class BucketManager(object):
         """复制文件:
 
         将指定资源复制为新命名资源，具体规格参考：
-        http://developer.qiniu.com/docs/v6/api/reference/rs/copy.html
+        http://developer.qiniu4tornado.com/docs/v6/api/reference/rs/copy.html
 
         Args:
             bucket:     待操作资源所在空间
@@ -155,7 +155,7 @@ class BucketManager(object):
     def fetch(self, url, bucket, key=None):
         """抓取文件:
         从指定URL抓取资源，并将该资源存储到指定空间中，具体规格参考：
-        http://developer.qiniu.com/docs/v6/api/reference/rs/fetch.html
+        http://developer.qiniu4tornado.com/docs/v6/api/reference/rs/fetch.html
 
         Args:
             url:    指定的URL
@@ -174,7 +174,7 @@ class BucketManager(object):
         """镜像回源预取文件:
 
         从镜像源站抓取资源到空间中，如果空间中已经存在，则覆盖该资源，具体规格参考
-        http://developer.qiniu.com/docs/v6/api/reference/rs/prefetch.html
+        http://developer.qiniu4tornado.com/docs/v6/api/reference/rs/prefetch.html
 
         Args:
             bucket: 待获取资源所在的空间
@@ -191,7 +191,7 @@ class BucketManager(object):
         """修改文件mimeType:
 
         主动修改指定资源的文件类型，具体规格参考：
-        http://developer.qiniu.com/docs/v6/api/reference/rs/chgm.html
+        http://developer.qiniu4tornado.com/docs/v6/api/reference/rs/chgm.html
 
         Args:
             bucket: 待操作资源所在空间
@@ -206,7 +206,7 @@ class BucketManager(object):
         """批量操作:
 
         在单次请求中进行多个资源管理操作，具体规格参考：
-        http://developer.qiniu.com/docs/v6/api/reference/rs/batch.html
+        http://developer.qiniu4tornado.com/docs/v6/api/reference/rs/batch.html
 
         Args:
             operations: 资源管理操作数组，可通过

@@ -9,16 +9,16 @@ import requests
 import unittest
 import pytest
 
-from qiniu import Auth, set_default, etag, PersistentFop, build_op, op_save, Zone
-from qiniu import put_data, put_file, put_stream
-from qiniu import BucketManager, build_batch_copy, build_batch_rename, build_batch_move, build_batch_stat, build_batch_delete
-from qiniu import urlsafe_base64_encode, urlsafe_base64_decode
+from qiniu4tornado import Auth, set_default, etag, PersistentFop, build_op, op_save, Zone
+from qiniu4tornado import put_data, put_file, put_stream
+from qiniu4tornado import BucketManager, build_batch_copy, build_batch_rename, build_batch_move, build_batch_stat, build_batch_delete
+from qiniu4tornado import urlsafe_base64_encode, urlsafe_base64_decode
 
-from qiniu.compat import is_py2, is_py3, b
+from qiniu4tornado.compat import is_py2, is_py3, b
 
-from qiniu.services.storage.uploader import _form_put
+from qiniu4tornado.services.storage.uploader import _form_put
 
-import qiniu.config
+import qiniu4tornado.config
 
 if is_py2:
     import sys
@@ -89,9 +89,9 @@ class AuthTestCase(unittest.TestCase):
             Auth('', '').token('nokey')
 
     def test_token_of_request(self):
-        token = dummy_auth.token_of_request('http://www.qiniu.com?go=1', 'test', '')
+        token = dummy_auth.token_of_request('http://www.qiniu4tornado.com?go=1', 'test', '')
         assert token == 'abcdefghklmnopq:cFyRVoWrE3IugPIMP5YJFTO-O-Y='
-        token = dummy_auth.token_of_request('http://www.qiniu.com?go=1', 'test', 'application/x-www-form-urlencoded')
+        token = dummy_auth.token_of_request('http://www.qiniu4tornado.com?go=1', 'test', 'application/x-www-form-urlencoded')
         assert token == 'abcdefghklmnopq:svWRNcacOE-YMsc70nuIYdaa1e4='
 
     def test_deprecatedPolicy(self):
@@ -100,7 +100,7 @@ class AuthTestCase(unittest.TestCase):
 
     def test_verify_callback(self):
         body = 'name=sunflower.jpg&hash=Fn6qeQi4VDLQ347NiRm-RlQx_4O2&location=Shanghai&price=1500.00&uid=123'
-        url = 'test.qiniu.com/callback'
+        url = 'test.qiniu4tornado.com/callback'
         ok = dummy_auth.verify_callback('QBox abcdefghklmnopq:ZWyeM5ljWMRFwuPTPOwQ4RwSto4=', url, body)
         assert ok
 
@@ -129,13 +129,13 @@ class BucketTestCase(unittest.TestCase):
         assert ret['key'] == 'python-sdk.html'
 
     def test_fetch(self):
-        ret, info = self.bucket.fetch('http://developer.qiniu.com/docs/v6/sdk/python-sdk.html', bucket_name, 'fetch.html')
+        ret, info = self.bucket.fetch('http://developer.qiniu4tornado.com/docs/v6/sdk/python-sdk.html', bucket_name, 'fetch.html')
         print(info)
         assert ret['key'] == 'fetch.html'
         assert 'hash' in ret
 
     def test_fetch_without_key(self):
-        ret, info = self.bucket.fetch('http://developer.qiniu.com/docs/v6/sdk/python-sdk.html', bucket_name)
+        ret, info = self.bucket.fetch('http://developer.qiniu4tornado.com/docs/v6/sdk/python-sdk.html', bucket_name)
         print(info)
         assert ret['key'] == ret['hash']
         assert 'hash' in ret
@@ -277,44 +277,44 @@ class UploaderTestCase(unittest.TestCase):
     def test_withoutRead_withoutSeek_retry(self):
         key = 'retry'
         data = 'hello retry!'
-        set_default(default_zone=Zone('a', 'upload.qiniu.com'))
+        set_default(default_zone=Zone('a', 'upload.qiniu4tornado.com'))
         token = self.q.upload_token(bucket_name)
         ret, info = put_data(token, key, data)
         print(info)
         assert ret['key'] == key
         assert ret['hash'] == 'FlYu0iBR1WpvYi4whKXiBuQpyLLk'
-        qiniu.set_default(default_zone=qiniu.config.zone0)
+        qiniu4tornado.set_default(default_zone=qiniu4tornado.config.zone0)
 
     def test_hasRead_hasSeek_retry(self):
         key = 'withReadAndSeek_retry'
         data = StringIO('hello retry again!')
-        set_default(default_zone=Zone('a', 'upload.qiniu.com'))
+        set_default(default_zone=Zone('a', 'upload.qiniu4tornado.com'))
         token = self.q.upload_token(bucket_name)
         ret, info = put_data(token, key, data)
         print(info)
         assert ret['key'] == key
         assert ret['hash'] == 'FuEbdt6JP2BqwQJi7PezYhmuVYOo'
-        qiniu.set_default(default_zone=qiniu.config.zone0)
+        qiniu4tornado.set_default(default_zone=qiniu4tornado.config.zone0)
 
     def test_hasRead_withoutSeek_retry(self):
         key = 'withReadAndWithoutSeek_retry'
         data = ReadWithoutSeek('I only have read attribute!')
-        set_default(default_zone=Zone('a', 'upload.qiniu.com'))
+        set_default(default_zone=Zone('a', 'upload.qiniu4tornado.com'))
         token = self.q.upload_token(bucket_name)
         ret, info = put_data(token, key, data)
         print(info)
         assert ret is None
-        qiniu.set_default(default_zone=qiniu.config.zone0)
+        qiniu4tornado.set_default(default_zone=qiniu4tornado.config.zone0)
 
     def test_hasRead_WithoutSeek_retry2(self):
         key = 'withReadAndWithoutSeek_retry2'
-        data = urlopen("http://www.qiniu.com")
-        set_default(default_zone=Zone('a', 'upload.qiniu.com'))
+        data = urlopen("http://www.qiniu4tornado.com")
+        set_default(default_zone=Zone('a', 'upload.qiniu4tornado.com'))
         token = self.q.upload_token(bucket_name)
         ret, info = put_data(token, key, data)
         print(info)
         assert ret is None
-        qiniu.set_default(default_zone=qiniu.config.zone0)
+        qiniu4tornado.set_default(default_zone=qiniu4tornado.config.zone0)
 
 
 class ResumableUploaderTestCase(unittest.TestCase):
@@ -338,23 +338,23 @@ class ResumableUploaderTestCase(unittest.TestCase):
         token = self.q.upload_token(bucket_name, key)
         localfile = create_temp_file(4 * 1024 * 1024 + 1)
         progress_handler = lambda progress, total: progress
-        qiniu.set_default(default_zone=Zone('a', 'upload.qiniu.com'))
+        qiniu4tornado.set_default(default_zone=Zone('a', 'upload.qiniu4tornado.com'))
         ret, info = put_file(token, key, localfile, self.params, self.mime_type, progress_handler=progress_handler)
         print(info)
         assert ret['key'] == key
-        qiniu.set_default(default_zone=qiniu.config.zone0)
+        qiniu4tornado.set_default(default_zone=qiniu4tornado.config.zone0)
         remove_temp_file(localfile)
 
     def test_retry(self):
         localfile = __file__
         key = 'test_file_r_retry'
-        qiniu.set_default(default_zone=Zone('a', 'upload.qiniu.com'))
+        qiniu4tornado.set_default(default_zone=Zone('a', 'upload.qiniu4tornado.com'))
         token = self.q.upload_token(bucket_name, key)
         ret, info = put_file(token, key, localfile, self.params, self.mime_type)
         print(info)
         assert ret['key'] == key
         assert ret['hash'] == etag(localfile)
-        qiniu.set_default(default_zone=qiniu.config.zone0)
+        qiniu4tornado.set_default(default_zone=qiniu4tornado.config.zone0)
 
 
 class DownloadTestCase(unittest.TestCase):
