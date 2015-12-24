@@ -3,6 +3,7 @@
 from qiniu import config
 from qiniu.utils import urlsafe_base64_encode, entry
 from qiniu import http
+from tornado import gen
 
 
 class BucketManager(object):
@@ -52,13 +53,8 @@ class BucketManager(object):
             options['delimiter'] = delimiter
 
         url = 'http://{0}/list'.format(config.get_default('default_rsf_host'))
-        ret, info = self.__get(url, options)
+        return self.__get(url, options)
 
-        eof = False
-        if ret and not ret.get('marker'):
-            eof = True
-
-        return ret, eof, info
 
     def stat(self, bucket, key):
         """获取文件信息:

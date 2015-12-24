@@ -8,6 +8,15 @@ from qiniu import config
 from .auth import RequestsAuth
 from . import __version__
 
+from tornado.concurrent import TracebackFuture
+from tornado.httpclient import AsyncHTTPClient
+from tornado.httpclient import HTTPRequest
+from tornado import gen
+from tornado import stack_context
+import urllib
+import sys
+import json
+
 
 _sys_info = '{0}; {1}'.format(platform.system(), platform.machine())
 _python_ver = platform.python_version()
@@ -35,25 +44,51 @@ def _init():
     _session = session
 
 
-def _post(url, data, files, auth):
-    if _session is None:
-        _init()
-    try:
-        r = _session.post(
-            url, data=data, files=files, auth=auth, headers=_headers, timeout=config.get_default('connection_timeout'))
-    except Exception as e:
-        return None, ResponseInfo(None, e)
-    return __return_wrapper(r)
+def build_authorization(auth, url, body):
+    token = ""
+    if body:
+        token = auth.token_of_request(url, body, 'application/x-www-form-urlencoded')
+    else:
+        token = auth.token_of_request(url)
+    return 'QBox {0}'.format(token)
 
 
+
+@gen.coroutine
+def _post(url, data, files, request_auth):
+    if files:
+        raise NotImplementedError("does not support files upload")
+    body = ""
+    if data:
+        body = urllib.urlencode(data)
+    headers = {
+        'Authorization': build_authorization(request_auth.auth, url, data),
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    request = HTTPRequest(url, body=body, method="POST", headers=headers)
+    client = AsyncHTTPClient()
+    response = yield client.fetch(request)
+    response_text = response.body
+    retval = {}
+    if response_text:
+        retval = json.loads(response_text)
+    raise gen.Return(retval)
+
+
+@gen.coroutine
 def _get(url, params, auth):
-    try:
-        r = requests.get(
-            url, params=params, auth=RequestsAuth(auth) if auth is not None else None,
-            timeout=config.get_default('connection_timeout'), headers=_headers)
-    except Exception as e:
-        return None, ResponseInfo(None, e)
-    return __return_wrapper(r)
+    full_url = '%s?%s' % (url, urllib.urlencode(params))
+    headers = {
+        'Authorization': build_authorization(auth, full_url, None)
+    }
+    request = HTTPRequest(full_url, headers=headers)
+    client = AsyncHTTPClient()
+    response = yield client.fetch(request)
+    response_text = response.body
+    retval = {}
+    if response_text:
+        retval = json.loads(response_text)
+    raise gen.Return(retval)
 
 
 class _TokenAuth(AuthBase):
